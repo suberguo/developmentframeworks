@@ -25,7 +25,7 @@
 	<context:property-placeholder
 		location="classpath:jdbc.properties" />
 	
-    <import resource="classpath:applicationContext-Security.xml"></import>
+   <!--  <import resource="classpath:applicationContext-Security.xml"></import> -->
 	<!-- com.mchange.v2.c3p0.ComboPooledDataSource " -->
 	
 	<bean id="dataSource"

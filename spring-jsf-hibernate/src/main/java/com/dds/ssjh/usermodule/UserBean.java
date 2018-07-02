@@ -21,7 +21,6 @@ import com.dds.ssjh.service.UserService;
 
 @SuppressWarnings("serial")
 @ManagedBean
-@ViewScoped
 public class UserBean extends AbstractBean {
 
 	@Autowired

@@ -57,7 +57,7 @@
 													</span>
 													<p:inputText class="form-control" placeholder="Username"
 														value="#{userBean.user.name}" required="true"
-														name="d_Username" type="text">
+														name="d_Username" id="d_Username" type="text">
 													</p:inputText>
 												</div>
 											</div>
@@ -67,14 +67,14 @@
 														class="glyphicon glyphicon-lock"></i>
 													</span>
 													<p:inputText class="form-control" placeholder="Password"
-														name="d_Password" type="password"
+														name="d_Password" id="d_Password" type="password"
 														value="#{userBean.user.password}" required="true"></p:inputText>
 												</div>
 											</div>
 											<div class="form-group">
-												<p:commandButton value="Sign in" update="messages"
-													process="@this,mainForm"
+												<p:commandButton value="Sign in"
 													class="btn btn-lg btn-primary btn-block"
+													process="@this,mainForm"
 													action="#{userBean.doLogin}"
 													>
 													<!-- oncomplete="handleLoginComplete(xhr,status,args)" -->

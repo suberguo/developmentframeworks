@@ -68,24 +68,15 @@
 		<property name="authenticationSuccessHandler"
 			ref="authenticationSuccessHandler" /> <!-- 验证成果时的处理器 -->
 	</bean>
-
-
-	<sec:http pattern="/login.xhtml" security="none"></sec:http>
-	<sec:http pattern="/resources" security="none"></sec:http>
-	<sec:http pattern="/**/*.js" security="none"></sec:http>
-	<sec:http pattern="/**/*.jpg" security="none"></sec:http>
-	<sec:http pattern="/javax.faces.resource/*" security="none"></sec:http>
 	<!-- entry-point-ref="authenticationEntryPointAdapter" auto-config="true"-->
-	<sec:http >
-		<sec:intercept-url pattern="/user**"
-			access="authenticated" />
-		<sec:intercept-url pattern="/views/**"
-			access="authenticated" />
-		<sec:intercept-url pattern="/templates/**"
-			access="authenticated" />
-		<sec:intercept-url pattern="/index.html"
-			access="authenticated" />
-		<sec:form-login login-page="/login.xhtml"
+	<sec:http auto-config="false" use-expressions="true" >
+	    <sec:intercept-url pattern="/login.xhtml" access="anonymous" />
+	    <sec:intercept-url pattern="/login.jsf" access="anonymous" />
+	    <sec:intercept-url pattern="/index.html" access="authenticated" />
+	    <sec:intercept-url pattern="/javax.faces.resource/**" access="anonymous" />
+		<sec:intercept-url pattern="/views/**"	access="authenticated" />
+		<sec:intercept-url pattern="/templates/**"	access="authenticated" />
+		<sec:form-login login-page="/login.jsf"
 			username-parameter="d_Username" password-parameter="d_Password"
 			authentication-failure-url="/login"
 			always-use-default-target="true"

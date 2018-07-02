@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User loadByName(String name) {
-		return database.loadBy(User.class, "USERNAME", name);
+		return database.loadBy(User.class, "name", name);
 	}
 
 	@Override

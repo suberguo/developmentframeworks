@@ -14,7 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-/*
+
 @EnableWebSecurity
 public class DdsSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
@@ -31,8 +31,14 @@ public class DdsSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/").authenticated().and().formLogin().loginPage("/login.jsf").permitAll().and()
-				.logout().permitAll();
+		http
+		.authorizeRequests()
+		.antMatchers("/login.jsf","/login.xhtml").permitAll()
+		.antMatchers("/javax.faces.resource/**").permitAll()
+		.antMatchers("/index.html","/views/**","/templates/**").authenticated()
+		.and().formLogin().usernameParameter("mainForm:d_Username").passwordParameter("mainForm:d_Password").loginProcessingUrl("/j_spring_security_check").defaultSuccessUrl("/", true)
+		.loginPage("/login.jsf").permitAll()
+		.and().logout().permitAll();
 		http.csrf().disable();
 	}
 
@@ -49,4 +55,4 @@ public class DdsSecurityConfigurer extends WebSecurityConfigurerAdapter {
 		return new ProviderManager(Arrays.asList(authenticationProvider, createDaoAuthenticationProvider()));
 	}
 
-}*/
+}
