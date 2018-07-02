@@ -1,0 +1,31 @@
+<ui:component xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/mobile">
+	<ul class="nav mav-sidebar">
+		<p:accordionPanel>
+        <p:tab title="Car">
+            <h:panelGrid columns="2" cellpadding="5">
+                <f:facet name="header">
+                    <p:graphicImage name="demo/images/car/#{car.brand}-big.gif" />
+                </f:facet>                    
+                <h:outputText value="Brand:" style="font-weight: bold" />
+                <h:outputText value="Year:" style="font-weight: bold" />
+                <h:outputText value="Color:" style="font-weight: bold" />
+            </h:panelGrid>
+        </p:tab>
+        <p:tab title="Car2">
+            <h:panelGrid columns="2" cellpadding="5">
+                <f:facet name="header">
+                    <p:graphicImage name="demo/images/car/#{car.brand}-big.gif" />
+                </f:facet>                    
+                <h:outputText value="Brand:" style="font-weight: bold" />
+                <h:outputText value="Year:" style="font-weight: bold" />
+                <h:outputText value="Color:" style="font-weight: bold" />
+            </h:panelGrid>
+        </p:tab>
+    </p:accordionPanel>
+	</ul>
+</ui:component>

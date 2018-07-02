@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+<f:view contentType="text/html" locale="en">
+    <h:head title="Spring-JSF-Hibernate">
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <meta name="viewport"
+				content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        </f:facet>
+        <ui:insert name="head"/>
+        <f:facet name="middle">
+            <h:outputStylesheet name="bootstrap-3.3.7-dist/css/bootstrap.css"></h:outputStylesheet>
+            <h:outputStylesheet name="spring-jsf-hibernate.css"></h:outputStylesheet>
+            <h:outputScript name="jquery/external/jquery/jquery.js"></h:outputScript>
+            <h:outputScript name="bootstrap-3.3.7-dist/js/bootstrap.js"></h:outputScript>
+        </f:facet>
+    </h:head>
+    <h:body>
+       <ui:include src="head.xhtml"></ui:include>
+       <ui:include src="content.xhtml"></ui:include>
+    </h:body>
+</f:view>
+</html>
