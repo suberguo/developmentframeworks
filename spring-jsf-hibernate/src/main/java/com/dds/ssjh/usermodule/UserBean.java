@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -13,6 +14,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,6 +23,7 @@ import com.dds.ssjh.service.UserService;
 
 @SuppressWarnings("serial")
 @ManagedBean
+@RequestScoped
 public class UserBean extends AbstractBean {
 
 	@Autowired
@@ -54,7 +57,6 @@ public class UserBean extends AbstractBean {
 		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 		RequestDispatcher dispatcher = ((ServletRequest) context.getRequest())
 				.getRequestDispatcher("/j_spring_security_check");
-
 		dispatcher.forward((ServletRequest) context.getRequest(), (ServletResponse) context.getResponse());
 		FacesContext.getCurrentInstance().responseComplete();
 		return null;

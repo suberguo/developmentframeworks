@@ -6,89 +6,59 @@
     http://www.springframework.org/schema/security/spring-security-4.2.xsd
     http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
-	<sec:authentication-manager
-		alias="authenticationManager">
+	<sec:authentication-manager>
 		<sec:authentication-provider
 			ref="authenticationProvider" />
 	</sec:authentication-manager>
 	<bean id="authenticationProvider"
 		class="com.dds.ssjh.security.DdsAuthenticationProvider">
-		<property name="userService"
-			ref="ddsUserDetailsService" />
+		<property name="userService" ref="ddsUserDetailsService" />
 	</bean>
 	<bean id="ddsUserDetailsService"
 		class="com.dds.ssjh.security.DdsUserDetailsService" />
-		
-	<bean id="accessDecisionManager"
-		class="org.springframework.security.access.vote.AffirmativeBased">
-		<constructor-arg name="decisionVoters">
-			<list>
-				<bean
-					class="org.springframework.security.access.vote.RoleVoter">
-					<property name="rolePrefix" value="" />
-				</bean>
-				<bean
-					class="org.springframework.security.access.vote.AuthenticatedVoter" />
-			</list>
-		</constructor-arg>
-	</bean>
-
-	<bean id="ddsSecurityMetadataSource"
-		class="com.dds.ssjh.security.DdsSecurityMetadataSource"></bean>
-		
-	<bean id="filterSecurityInterceptor"
-		class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
-		<property name="authenticationManager"
-			ref="authenticationManager" />
-		<property name="accessDecisionManager"
-			ref="accessDecisionManager" />
-		<property name="securityMetadataSource"
-			ref="ddsSecurityMetadataSource" />
-	</bean>
-	
-	<bean id="authenticationSuccessHandler"
-		class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
-		<property name="defaultTargetUrl" value="/index.html" /> <!-- 验证成功时跳到哪个请求 -->
-		<property name="alwaysUseDefaultTargetUrl" value="true" />
-	</bean>
-	<bean id="authenticationFailureHandler"
-		class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
-		<property name="defaultFailureUrl" value="/login.xhtml" /> <!-- 验证失败时跳到哪个请求 -->
-	</bean>
-	
-	<bean id="loginAuthenticationFilter"
-		class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
-		<property name="filterProcessesUrl" value="/j_spring_security_check"></property> <!-- --> <!-- 表单提交的url, 默认是/j_spring_security_check -->
-		<property name="usernameParameter" value="d_Username"></property> <!-- 表单里用户名字段的name, 默认是j_username -->
-		<property name="passwordParameter" value="d_Password"></property> <!-- 表单里密码字段的name, 默认是j_password -->
-		<property name="authenticationManager"
-			ref="authenticationManager" /> <!-- 一定要配置, 这里使用上面定义的authenticationManager -->
-		<property name="authenticationFailureHandler"
-			ref="authenticationFailureHandler" /> <!-- 验证失败时的处理器 -->
-		<property name="authenticationSuccessHandler"
-			ref="authenticationSuccessHandler" /> <!-- 验证成果时的处理器 -->
-	</bean>
-	<!-- entry-point-ref="authenticationEntryPointAdapter" auto-config="true"-->
-	<sec:http auto-config="false" use-expressions="true" >
-	    <sec:intercept-url pattern="/login.xhtml" access="anonymous" />
-	    <sec:intercept-url pattern="/login.jsf" access="anonymous" />
-	    <sec:intercept-url pattern="/index.html" access="authenticated" />
-	    <sec:intercept-url pattern="/javax.faces.resource/**" access="anonymous" />
-		<sec:intercept-url pattern="/views/**"	access="authenticated" />
-		<sec:intercept-url pattern="/templates/**"	access="authenticated" />
-		<sec:form-login login-page="/login.jsf"
-			username-parameter="d_Username" password-parameter="d_Password"
-			authentication-failure-url="/login"
-			always-use-default-target="true"
-			authentication-success-handler-ref="authenticationSuccessHandler"
-			authentication-failure-handler-ref="authenticationFailureHandler" />
-		<!--指定使用默认登出页面，登出后跳转到/login?logout页面 -->
-		<sec:logout logout-success-url="/loginout.jsf" />
-		<!--对于没有权限的页面跳转到/403路径 -->
-		<sec:access-denied-handler error-page="/403" />
-		<sec:custom-filter ref="loginAuthenticationFilter"
-			after="FORM_LOGIN_FILTER" />
-		<sec:custom-filter ref="filterSecurityInterceptor"
-			before="FILTER_SECURITY_INTERCEPTOR" />
+	<!-- <bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased"> 
+		<constructor-arg name="decisionVoters"> <list> <bean class="org.springframework.security.access.vote.RoleVoter"> 
+		<property name="rolePrefix" value="" /> </bean> <bean class="org.springframework.security.access.vote.AuthenticatedVoter" 
+		/> </list> </constructor-arg> </bean> <bean id="ddsSecurityMetadataSource" 
+		class="com.dds.ssjh.security.DdsSecurityMetadataSource"></bean> <bean id="filterSecurityInterceptor" 
+		class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor"> 
+		<property name="authenticationManager" ref="authenticationManager" /> <property 
+		name="accessDecisionManager" ref="accessDecisionManager" /> <property name="securityMetadataSource" 
+		ref="ddsSecurityMetadataSource" /> </bean> <bean id="authenticationSuccessHandler" 
+		class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler"> 
+		<property name="defaultTargetUrl" value="/index.html" /> <property name="alwaysUseDefaultTargetUrl" 
+		value="true" /> </bean> <bean id="authenticationFailureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler"> 
+		<property name="defaultFailureUrl" value="/login.xhtml" /> </bean> <bean 
+		id="loginAuthenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter"> 
+		<property name="filterProcessesUrl" value="/j_spring_security_check"></property> 
+		<property name="usernameParameter" value="mainForm:d_Username"></property> 
+		<property name="passwordParameter" value="mainForm:d_Password"></property> 
+		<property name="authenticationManager" ref="authenticationManager" /> <property 
+		name="authenticationFailureHandler" ref="authenticationFailureHandler" /> 
+		<property name="authenticationSuccessHandler" ref="authenticationSuccessHandler" 
+		/> </bean> <bean id="authenticationProcessingFilterEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint"> 
+		<constructor-arg name="loginFormUrl" value="/login.xhtml" /> </bean> <sec:http 
+		pattern="/javax.faces.resource/**" security="none" /> -->
+	<!-- entry-point-ref="authenticationEntryPointAdapter" auto-config="true" -->
+	<sec:http use-expressions="true">
+		<sec:intercept-url pattern="/login.xhtml"
+			access="anonymous" />
+		<sec:intercept-url pattern="/login.jsf"
+			access="anonymous" />
+		<sec:intercept-url pattern="/javax.faces.resource/**"
+			access="anonymous" />
+		<sec:intercept-url pattern="/views/**"
+			access="authenticated" />
+		<sec:intercept-url pattern="/templates/**"
+			access="authenticated" />
+		<sec:form-login login-page="/login.xhtml"
+			username-parameter="d_Username"
+			password-parameter="d_Password"
+			authentication-failure-url="/login.xhtml?error=1"
+			default-target-url="/views/mainpage.xhtml"
+			always-use-default-target="true" />
+			<!-- 
+		<sec:logout logout-success-url="/login.xhtml" />
+		<sec:access-denied-handler error-page="/403" /> -->
 	</sec:http>
 </beans>

@@ -1,28 +1,150 @@
-<!DOCTYPE html>
+
+<!DOCTYPE html [
+    <!ENTITY nbsp "&#160;">
+    <!ENTITY bull "&#8226;">
+    <!ENTITY copy "&#169;">
+    ]>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
 <f:view contentType="text/html" locale="en">
-    <h:head title="Spring-JSF-Hibernate">
-        <f:facet name="first">
-            <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
-            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-            <meta name="viewport"
+	<h:head title="Spring-JSF-Hibernate">
+		<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+			<meta name="viewport"
 				content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-        </f:facet>
-        <ui:insert name="head"/>
-        <f:facet name="middle">
-            <h:outputStylesheet name="bootstrap-3.3.7-dist/css/bootstrap.css"></h:outputStylesheet>
-            <h:outputStylesheet name="spring-jsf-hibernate.css"></h:outputStylesheet>
-            <h:outputScript name="jquery/external/jquery/jquery.js"></h:outputScript>
-            <h:outputScript name="bootstrap-3.3.7-dist/js/bootstrap.js"></h:outputScript>
-        </f:facet>
-    </h:head>
-    <h:body>
-       <ui:include src="head.xhtml"></ui:include>
-       <ui:include src="content.xhtml"></ui:include>
-    </h:body>
+		</f:facet>
+		<ui:insert name="head" />
+		<f:facet name="middle">
+			<!-- <h:outputScript name="jquery/external/jquery/jquery.js"></h:outputScript> -->
+            <!--<h:outputScript name="jquery/jquery-ui.js" /> -->
+            <h:outputScript name="jquery/jquery.js" library="primefaces" />
+            <h:outputScript name="jquery/jquery-plugins.js" library="primefaces" />
+			<h:outputStylesheet name="bootstrap-3.3.7-dist/css/bootstrap.css"></h:outputStylesheet>
+			<h:outputStylesheet name="perfect-scrollbar.css"></h:outputStylesheet>
+			<h:outputStylesheet name="layout.css"></h:outputStylesheet>
+			<h:outputScript name="bootstrap-3.3.7-dist/js/bootstrap.js"></h:outputScript>
+			<h:outputScript name="perfect-scrollbar.js"></h:outputScript>
+			<h:outputScript name="layout.js"></h:outputScript>
+			
+		</f:facet>
+	</h:head>
+	<h:body>
+		<div class="PC">
+		 <div class="HEADSIDE">
+		   <span id="LOGO" >Spring-JSF-Hibernate</span>
+		 </div>
+		<div id="MENUSIDE">
+				<div id="MENUSIDEindent">
+					
+					<div class="MenuSideMainLink">
+						<input id="menuSearch" type="text" placeholder="Search Menu"
+							 />
+					</div>
+
+					<span id="SubMenu-Ajax" class="MenuSideMainLink bordersOfMenuSide"
+						onclick="LAYOUT.openSubMenu(this);"><span
+						class="MainLinkText">User</span></span>
+					<div class="SubMenuLinkContainer">
+						<a class="SubMenuLink"
+							href="#{request.contextPath}/ui/ajax/basic.xhtml">&bull;
+							Basic</a> <a class="SubMenuLink"
+							href="#{request.contextPath}/ui/ajax/event.xhtml">&bull;
+							Event</a> <a class="SubMenuLink"
+							href="#{request.contextPath}/ui/ajax/listener.xhtml">&bull;
+							Listener</a>
+					</div>
+
+					<span id="SubMenu-Input" class="MenuSideMainLink bordersOfMenuSide"
+						onclick="LAYOUT.openSubMenu(this);"><span
+						class="MainLinkText">Input</span></span>
+					<div class="SubMenuLinkContainer">
+						<a class="SubMenuLink"
+							href="#{request.contextPath}/ui/input/autoComplete.xhtml">&bull;
+							AutoComplete</a> <a class="SubMenuLink"
+							href="#{request.contextPath}/ui/input/inputTextarea.xhtml">&bull;
+							InputTextarea</a> <a class="SubMenuLink"
+							href="#{request.contextPath}/ui/input/booleanButton.xhtml">&bull;
+							BooleanButton</a> 
+					</div>
+                    <span class="bordersOfMenuSide"></span>
+				</div>
+			</div>
+
+			<script type="text/javascript">
+				restoreMenuState();
+			</script>
+
+			<div id="CONTENTSIDE">
+				<div class="notification-topbar" style="display: none;">
+					<a href="#PremiumTemplates">  <i
+						class="notification-topbar-close fa fa-lg fa-times-circle"></i>
+					</a>
+				</div>
+
+				<div id="CONTENTSIDEindent">
+					<div class="content-container">
+						<ui:insert name="content">
+							<ui:insert name="subsubmenu"></ui:insert>
+							<div class="ContentSideSections">
+								<div class="Content100 overHidden TextShadow">
+									<span
+										class="fontSize30 TextShadow orange regularFont marginBottom20 dispBlock"><ui:insert
+											name="title" /></span> <span class="defaultText dispTable"><ui:insert
+											name="description" /> </span>
+								</div>
+							</div>
+
+							<div class="ContentSideSections Implementation">
+								<ui:insert name="implementation" />
+							</div>
+
+							<div id="SourceContentSide" class="ContentSideSections Source">
+								<div class="Content100 overHidden TextShadow">
+									<span class="defaultText"> <span
+										class="fontSize16 logoBlueText"> <ui:insert
+												name="source" />
+									</span>
+									</span>
+								</div>
+							</div>
+
+						</ui:insert>
+					</div>
+
+					<!-- footer start-->
+					<div class="ContentSideSections">
+						<span class="floatLeft fontSize14 gray"><a
+							href="http://www.primetek.com.tr">PrimeTek</a>, Copyright &copy;
+							2017<br />All rights reserved.</span> <span
+							class="floatRight fontSize14 gray">Running
+							#{build.primefacesVersion} on #{build.jsfVersion}.</span>
+						<div style="clear: both" />
+					</div>
+					<!-- footer end-->
+
+				</div>
+			</div>
+
+		</div>
+		<!-- PC CONTENT END-->
+		<ui:insert name="status">
+			<p:ajaxStatus
+				style="width:64px;height:64px;position:fixed;right:5px;bottom:5px">
+				<f:facet name="start">
+					
+				</f:facet>
+
+				<f:facet name="complete">
+					<h:outputText value="" />
+				</f:facet>
+			</p:ajaxStatus>
+		</ui:insert>
+		<ui:insert name="body"></ui:insert>
+		
+	</h:body>
 </f:view>
 </html>

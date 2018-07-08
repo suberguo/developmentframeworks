@@ -2,6 +2,10 @@ package com.dds.ssjh.security;
 
 import java.util.Arrays;
 
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
+
+import org.primefaces.PrimeFaces;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,6 +18,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+
 
 @EnableWebSecurity
 public class DdsSecurityConfigurer extends WebSecurityConfigurerAdapter {
@@ -33,12 +39,15 @@ public class DdsSecurityConfigurer extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 		.authorizeRequests()
-		.antMatchers("/login.jsf","/login.xhtml").permitAll()
+		.antMatchers("/login.xhtml").permitAll()
 		.antMatchers("/javax.faces.resource/**").permitAll()
-		.antMatchers("/index.html","/views/**","/templates/**").authenticated()
-		.and().formLogin().usernameParameter("mainForm:d_Username").passwordParameter("mainForm:d_Password").loginProcessingUrl("/j_spring_security_check").defaultSuccessUrl("/", true)
+		.antMatchers("/resources/**").permitAll()
+		.anyRequest().permitAll()
+		.and().formLogin().usernameParameter("d_Username").passwordParameter("d_Password").loginProcessingUrl("/j_spring_security_check")
+		.successForwardUrl("/views/mainpage.xhtml")
 		.loginPage("/login.jsf").permitAll()
-		.and().logout().permitAll();
+		.failureUrl("/login.xhtml?error=1")
+		.and().logout().logoutSuccessUrl("/j_spring_security_logout").permitAll();
 		http.csrf().disable();
 	}
 
@@ -53,6 +62,14 @@ public class DdsSecurityConfigurer extends WebSecurityConfigurerAdapter {
 	@Bean
 	public AuthenticationManager createAuthenticationManager() {
 		return new ProviderManager(Arrays.asList(authenticationProvider, createDaoAuthenticationProvider()));
+	}
+	
+	private SavedRequestAwareAuthenticationSuccessHandler createSuccessHandler() {
+		SavedRequestAwareAuthenticationSuccessHandler h = new SavedRequestAwareAuthenticationSuccessHandler();
+		//String path = ((ServletContext)FacesContext.getCurrentInstance().getExternalContext()).getContextPath();
+		h.setDefaultTargetUrl("/views/mainpage.xhtml");///views/mainpage.xhtml
+		//h.setAlwaysUseDefaultTargetUrl(true);
+		return h;
 	}
 
 }
