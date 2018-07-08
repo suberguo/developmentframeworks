@@ -59,4 +59,9 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Override
+	public void remove(User user) {
+		database.remove(user);
+	}
+
 }

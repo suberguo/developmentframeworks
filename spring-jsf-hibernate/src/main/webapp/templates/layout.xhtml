@@ -20,29 +20,28 @@
 		<ui:insert name="head" />
 		<f:facet name="middle">
 			<!-- <h:outputScript name="jquery/external/jquery/jquery.js"></h:outputScript> -->
-            <!--<h:outputScript name="jquery/jquery-ui.js" /> -->
-            <h:outputScript name="jquery/jquery.js" library="primefaces" />
-            <h:outputScript name="jquery/jquery-plugins.js" library="primefaces" />
+			<!--<h:outputScript name="jquery/jquery-ui.js" /> -->
+			<h:outputScript name="jquery/jquery.js" library="primefaces" />
+			<h:outputScript name="jquery/jquery-plugins.js" library="primefaces" />
 			<h:outputStylesheet name="bootstrap-3.3.7-dist/css/bootstrap.css"></h:outputStylesheet>
 			<h:outputStylesheet name="perfect-scrollbar.css"></h:outputStylesheet>
 			<h:outputStylesheet name="layout.css"></h:outputStylesheet>
 			<h:outputScript name="bootstrap-3.3.7-dist/js/bootstrap.js"></h:outputScript>
 			<h:outputScript name="perfect-scrollbar.js"></h:outputScript>
 			<h:outputScript name="layout.js"></h:outputScript>
-			
+
 		</f:facet>
 	</h:head>
 	<h:body>
 		<div class="PC">
-		 <div class="HEADSIDE">
-		   <span id="LOGO" >Spring-JSF-Hibernate</span>
-		 </div>
-		<div id="MENUSIDE">
+			<div class="HEADSIDE">
+				<span id="LOGO">Spring-JSF-Hibernate</span>
+			</div>
+			<div id="MENUSIDE">
 				<div id="MENUSIDEindent">
-					
+
 					<div class="MenuSideMainLink">
-						<input id="menuSearch" type="text" placeholder="Search Menu"
-							 />
+						<input id="menuSearch" type="text" placeholder="Search Menu" />
 					</div>
 
 					<span id="SubMenu-Ajax" class="MenuSideMainLink bordersOfMenuSide"
@@ -50,12 +49,12 @@
 						class="MainLinkText">User</span></span>
 					<div class="SubMenuLinkContainer">
 						<a class="SubMenuLink"
-							href="#{request.contextPath}/ui/ajax/basic.xhtml">&bull;
-							Basic</a> <a class="SubMenuLink"
-							href="#{request.contextPath}/ui/ajax/event.xhtml">&bull;
-							Event</a> <a class="SubMenuLink"
+							href="#{request.contextPath}/views/user/user.xhtml">&bull;
+							User Management</a> <a class="SubMenuLink"
+							href="#{request.contextPath}/views/user/event.xhtml">&bull;
+							Permission</a> <a class="SubMenuLink"
 							href="#{request.contextPath}/ui/ajax/listener.xhtml">&bull;
-							Listener</a>
+							Role</a>
 					</div>
 
 					<span id="SubMenu-Input" class="MenuSideMainLink bordersOfMenuSide"
@@ -68,9 +67,9 @@
 							href="#{request.contextPath}/ui/input/inputTextarea.xhtml">&bull;
 							InputTextarea</a> <a class="SubMenuLink"
 							href="#{request.contextPath}/ui/input/booleanButton.xhtml">&bull;
-							BooleanButton</a> 
+							BooleanButton</a>
 					</div>
-                    <span class="bordersOfMenuSide"></span>
+					<span class="bordersOfMenuSide"></span>
 				</div>
 			</div>
 
@@ -80,7 +79,7 @@
 
 			<div id="CONTENTSIDE">
 				<div class="notification-topbar" style="display: none;">
-					<a href="#PremiumTemplates">  <i
+					<a href="#PremiumTemplates"> <i
 						class="notification-topbar-close fa fa-lg fa-times-circle"></i>
 					</a>
 				</div>
@@ -89,53 +88,23 @@
 					<div class="content-container">
 						<ui:insert name="content">
 							<ui:insert name="subsubmenu"></ui:insert>
-							<div class="ContentSideSections">
-								<div class="Content100 overHidden TextShadow">
-									<span
-										class="fontSize30 TextShadow orange regularFont marginBottom20 dispBlock"><ui:insert
-											name="title" /></span> <span class="defaultText dispTable"><ui:insert
-											name="description" /> </span>
-								</div>
-							</div>
-
-							<div class="ContentSideSections Implementation">
-								<ui:insert name="implementation" />
-							</div>
-
-							<div id="SourceContentSide" class="ContentSideSections Source">
-								<div class="Content100 overHidden TextShadow">
-									<span class="defaultText"> <span
-										class="fontSize16 logoBlueText"> <ui:insert
-												name="source" />
-									</span>
-									</span>
-								</div>
-							</div>
-
 						</ui:insert>
 					</div>
-
-					<!-- footer start-->
-					<div class="ContentSideSections">
-						<span class="floatLeft fontSize14 gray"><a
-							href="http://www.primetek.com.tr">PrimeTek</a>, Copyright &copy;
-							2017<br />All rights reserved.</span> <span
-							class="floatRight fontSize14 gray">Running
-							#{build.primefacesVersion} on #{build.jsfVersion}.</span>
-						<div style="clear: both" />
-					</div>
-					<!-- footer end-->
-
 				</div>
+				<div style="margin:5px;">
+					<h:form>
+						<ui:insert name="body"></ui:insert>
+					</h:form>
+		        </div>
 			</div>
-
+           
 		</div>
 		<!-- PC CONTENT END-->
 		<ui:insert name="status">
 			<p:ajaxStatus
 				style="width:64px;height:64px;position:fixed;right:5px;bottom:5px">
 				<f:facet name="start">
-					
+
 				</f:facet>
 
 				<f:facet name="complete">
@@ -143,7 +112,6 @@
 				</f:facet>
 			</p:ajaxStatus>
 		</ui:insert>
-		<ui:insert name="body"></ui:insert>
 		
 	</h:body>
 </f:view>

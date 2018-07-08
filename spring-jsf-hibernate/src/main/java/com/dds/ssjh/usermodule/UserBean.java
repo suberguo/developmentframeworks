@@ -29,8 +29,6 @@ public class UserBean extends AbstractBean {
 	@Autowired
 	private transient UserService userService;
 
-	private User user = new User();
-
 	private User edittingUser = new User();
 
 	private List<User> users = new ArrayList<User>();
@@ -45,15 +43,6 @@ public class UserBean extends AbstractBean {
 	}
 
 	public String doLogin() throws IOException, ServletException {
-		/*
-		 * try { user = userService.login(user.getName(), user.getPassword()); if (user
-		 * == null) { FacesContext.getCurrentInstance().addMessage(null, new
-		 * FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
-		 * "Username or password is invalid.")); } else {
-		 * addCallbackParams("authenticated", true); } } catch (Exception e) {
-		 * FacesContext.getCurrentInstance().addMessage(null, new
-		 * FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage())); }
-		 */
 		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 		RequestDispatcher dispatcher = ((ServletRequest) context.getRequest())
 				.getRequestDispatcher("/j_spring_security_check");
@@ -73,13 +62,9 @@ public class UserBean extends AbstractBean {
 	public void saveUser() {
 		this.userService.save(edittingUser);
 	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
+	
+	public void remove(User user) {
+		this.userService.remove(user);
 	}
 
 	public List<User> getUsers() {

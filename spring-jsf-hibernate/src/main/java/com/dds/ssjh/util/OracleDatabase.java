@@ -31,14 +31,16 @@ public class OracleDatabase implements Database {
 		return (T) sessionFactory.getCurrentSession().load(className, id);
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T loadBy(Class<?> className, String propertyName, Object value) {
 		Criteria cr = sessionFactory.getCurrentSession().createCriteria(className);
 		cr.add(Restrictions.eq(propertyName, value));
-
+		
+		@SuppressWarnings("rawtypes")
 		List r = cr.list();
 		if (r.size() > 0) {
+			
 			return (T) r.get(0);
 		} else {
 			return null;
@@ -95,12 +97,12 @@ public class OracleDatabase implements Database {
 		SQLQuery q = sessionFactory.getCurrentSession().createSQLQuery(sql);
 		q.setResultTransformer(new AliasToBeanResultTransformer(clz));
 		HashMap<String, String> proMap = sqlBuilder.properties();
-		//HashMap<String, Type> typeMap = sqlBuilder.types();
+		// HashMap<String, Type> typeMap = sqlBuilder.types();
 		Set<String> keySet = proMap.keySet();
 		Iterator<String> iteratorKey = keySet.iterator();
 		while (iteratorKey.hasNext()) {
 			String alias = iteratorKey.next();
-			//String column = proMap.get(alias);
+			// String column = proMap.get(alias);
 			q.addScalar(alias);
 		}
 
@@ -125,15 +127,15 @@ public class OracleDatabase implements Database {
 		SQLQuery q = sessionFactory.getCurrentSession().createSQLQuery(builder.toString());
 		q.setResultTransformer(new AliasToBeanResultTransformer(clz));
 		HashMap<String, String> proMap = builder.properties();
-		//HashMap<String, Type> typeMap = builder.types();
+		// HashMap<String, Type> typeMap = builder.types();
 		Set<String> keySet = proMap.keySet();
 		Iterator<String> iteratorKey = keySet.iterator();
 		while (iteratorKey.hasNext()) {
 			String alias = iteratorKey.next();
-			//String column = proMap.get(alias);
+			// String column = proMap.get(alias);
 			q.addScalar(alias);
 		}
-		
+
 		q.setFirstResult((pageIndex - 1) * pageSize);
 		q.setMaxResults(pageIndex * pageSize);
 		r.setData((List<T>) q.list());
@@ -152,12 +154,12 @@ public class OracleDatabase implements Database {
 		SQLQuery q = sessionFactory.getCurrentSession().createSQLQuery(sql);
 		q.setResultTransformer(new AliasToBeanResultTransformer(clz));
 		HashMap<String, String> proMap = sqlBuilder.properties();
-		//HashMap<String, Type> typeMap = builder.types();
+		// HashMap<String, Type> typeMap = builder.types();
 		Set<String> keySet = proMap.keySet();
 		Iterator<String> iteratorKey = keySet.iterator();
 		while (iteratorKey.hasNext()) {
 			String alias = iteratorKey.next();
-			//String column = proMap.get(alias);
+			// String column = proMap.get(alias);
 			q.addScalar(alias);
 		}
 		List<Object> parameters = sqlBuilder.parameters();

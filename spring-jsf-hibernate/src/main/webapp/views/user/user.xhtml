@@ -4,8 +4,75 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pm="http://primefaces.org/mobile"
-	template="../templates/layout.xhtml">
-	<ui:define name="body" >
-		
+	template="/templates/layout.xhtml">
+	<ui:define name="subsubmenu">
+		<h:outputLabel value="用户管理" style="margin-left:5px;"></h:outputLabel>
+	</ui:define>
+	<ui:define name="body">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				loadUser();
+			});
+		</script>
+		<p:messages id="messages" showDetail="true" closable="true"></p:messages>
+		<p:commandButton value="新建" actionListener="#{userBean.newUser}"
+			oncomplete="PF('editUserDialog').show();" />
+		<p:remoteCommand name="loadUser" update="userTable"
+			action="#{userBean.load}" />
+		<p:dataTable id="userTable" var="u" value="#{userBean.users}">
+			<p:column headerText="操作" width="100">
+				<p:commandLink process="@this,userTable"
+					action="#{userBean.editUser(u)}"
+					oncomplete="PF('editUserDialog').show();">
+					<h:outputText value="编辑" />
+				</p:commandLink>
+				<p:commandLink process="@this,userTable"
+					action="#{userBean.remove(u)}" style="margin-left:5px;">
+					<h:outputText value="删除" />
+				</p:commandLink>
+			</p:column>
+			<p:column headerText="Id">
+				<h:outputText value="#{u.id}" />
+			</p:column>
+
+			<p:column headerText="Name">
+				<h:outputText value="#{u.name}" />
+			</p:column>
+
+			<p:column headerText="Password">
+				<h:outputText value="#{u.password}" />
+			</p:column>
+
+			<p:column headerText="Age">
+				<h:outputText value="#{u.age}" />
+			</p:column>
+		</p:dataTable>
+		<p:dialog header="Edit User" widgetVar="editUserDialog" modal="true"
+			height="180">
+			<p:panel>
+				<table>
+					<tr>
+						<td><h:outputText value="Username:"></h:outputText></td>
+						<td><h:inputText id="username"
+								value="#{userBean.edittingUser.name}"></h:inputText></td>
+					</tr>
+					<tr>
+						<td><h:outputText value="Password:"></h:outputText></td>
+						<td><h:inputText id="password"
+								value="#{userBean.edittingUser.password}"></h:inputText></td>
+					</tr>
+					<tr>
+						<td><h:outputText value="Age:"></h:outputText></td>
+						<td><h:inputText id="age"
+								value="#{userBean.edittingUser.age}" /></td>
+					</tr>
+					<tr>
+						<td><p:commandButton value="保存" process="@this,"
+								actionListener="#{userBean.saveUser}" update="messages" /></td>
+						<td></td>
+					</tr>
+				</table>
+			</p:panel>
+		</p:dialog>
 	</ui:define>
 </ui:composition>
