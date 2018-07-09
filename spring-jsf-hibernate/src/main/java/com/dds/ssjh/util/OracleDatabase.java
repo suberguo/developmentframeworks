@@ -62,11 +62,13 @@ public class OracleDatabase implements Database {
 	@Override
 	public <T> void remove(T object) {
 		sessionFactory.getCurrentSession().delete(object);
+		sessionFactory.getCurrentSession().flush();
 	}
 
 	@Override
 	public <T> void update(T object) {
 		sessionFactory.getCurrentSession().update(object);
+		sessionFactory.getCurrentSession().flush();
 
 	}
 
@@ -138,7 +140,9 @@ public class OracleDatabase implements Database {
 
 		q.setFirstResult((pageIndex - 1) * pageSize);
 		q.setMaxResults(pageIndex * pageSize);
+		
 		r.setData((List<T>) q.list());
+		
 		return r;
 	}
 

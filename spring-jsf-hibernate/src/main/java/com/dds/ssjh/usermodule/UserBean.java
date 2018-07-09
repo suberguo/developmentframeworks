@@ -3,6 +3,7 @@ package com.dds.ssjh.usermodule;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -14,16 +15,18 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletResponse;
 
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.dds.ssjh.model.PaginatedResult;
 import com.dds.ssjh.model.User;
 import com.dds.ssjh.service.UserService;
 
 @SuppressWarnings("serial")
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class UserBean extends AbstractBean {
 
 	@Autowired
@@ -33,22 +36,39 @@ public class UserBean extends AbstractBean {
 
 	private List<User> users = new ArrayList<User>();
 
+	private LazyDataModel<User> userLazyModel = null;
+
 	public void load() {
 		try {
-			this.users = userService.listUser();
+			setUserLazyModel(new LazyDataModel<User>() {
+				@Override
+				public List<User> load(int first, int pageSize, String sortField, SortOrder sortOrder,
+						Map<String, Object> filters) {
+					PaginatedResult<User> r = userService.listPaginated(pageSize, first);
+					setPageSize(pageSize);
+					setRowCount(r.getTotal());
+					return r.getData();
+				}
+			});
+
 		} catch (Exception e) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
 		}
 	}
 
-	public String doLogin() throws IOException, ServletException {
-		ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
-		RequestDispatcher dispatcher = ((ServletRequest) context.getRequest())
-				.getRequestDispatcher("/j_spring_security_check");
-		dispatcher.forward((ServletRequest) context.getRequest(), (ServletResponse) context.getResponse());
-		FacesContext.getCurrentInstance().responseComplete();
-		return null;
+	public void doLogin() throws IOException, ServletException {
+		try {
+			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+			RequestDispatcher dispatcher = ((ServletRequest) context.getRequest())
+					.getRequestDispatcher("/j_spring_security_check");
+			dispatcher.forward((ServletRequest) context.getRequest(), (ServletResponse) context.getResponse());
+			FacesContext.getCurrentInstance().responseComplete();
+		} catch (Exception ex) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage()));
+		}
+		// return "";
 	}
 
 	public void editUser(User user) {
@@ -60,11 +80,27 @@ public class UserBean extends AbstractBean {
 	}
 
 	public void saveUser() {
-		this.userService.save(edittingUser);
+		try {
+			if (this.edittingUser.getId() == null) {
+				this.userService.save(edittingUser);
+			} else {
+				this.userService.update(edittingUser);
+			}
+			this.users = this.userService.listUser();
+		} catch (Exception ex) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage()));
+		}
 	}
-	
+
 	public void remove(User user) {
-		this.userService.remove(user);
+		try {
+			this.userService.remove(user);
+			this.users = this.userService.listUser();
+		} catch (Exception ex) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage()));
+		}
 	}
 
 	public List<User> getUsers() {
@@ -81,5 +117,13 @@ public class UserBean extends AbstractBean {
 
 	public void setEdittingUser(User edittingUser) {
 		this.edittingUser = edittingUser;
+	}
+
+	public LazyDataModel<User> getUserLazyModel() {
+		return userLazyModel;
+	}
+
+	public void setUserLazyModel(LazyDataModel<User> userLazyModel) {
+		this.userLazyModel = userLazyModel;
 	}
 }

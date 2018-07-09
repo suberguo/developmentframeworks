@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.dds.ssjh.model.PaginatedResult;
 import com.dds.ssjh.model.User;
 import com.dds.ssjh.util.Database;
 import com.dds.ssjh.util.OracleSqlBuilder;
@@ -62,6 +63,18 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void remove(User user) {
 		database.remove(user);
+	}
+
+	@Override
+	public void update(User user) {
+		database.update(user);
+	}
+
+	@Override
+	public PaginatedResult<User> listPaginated(int pageSize, int pageIndex) {
+		SqlBuilder builder = new OracleSqlBuilder();
+		builder.from(User.class, "u");
+		return this.database.listPaginated(builder, User.class, pageSize, pageIndex);
 	}
 
 }

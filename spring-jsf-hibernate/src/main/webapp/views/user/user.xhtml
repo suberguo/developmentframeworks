@@ -16,63 +16,72 @@
 		</script>
 		<p:messages id="messages" showDetail="true" closable="true"></p:messages>
 		<p:commandButton value="新建" actionListener="#{userBean.newUser}"
-			oncomplete="PF('editUserDialog').show();" />
+			oncomplete="PF('editUserDialog').show();" update=":mainForm:editUserPanel" />
 		<p:remoteCommand name="loadUser" update="userTable"
 			action="#{userBean.load}" />
-		<p:dataTable id="userTable" var="u" value="#{userBean.users}">
+		<p:dataTable id="userTable" var="user" value="#{userBean.userLazyModel}" rows="10" lazy="true" paginator="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 			<p:column headerText="操作" width="100">
-				<p:commandLink process="@this,userTable"
-					action="#{userBean.editUser(u)}"
+				<p:commandLink icon="ui-icon-pencil"  process="@this,userTable"
+				update=":mainForm:editUserPanel"
+					actionListener="#{userBean.editUser(user)}"
 					oncomplete="PF('editUserDialog').show();">
 					<h:outputText value="编辑" />
 				</p:commandLink>
 				<p:commandLink process="@this,userTable"
-					action="#{userBean.remove(u)}" style="margin-left:5px;">
+					actionListener="#{userBean.remove(user)}" update="userTable" style="margin-left:5px;">
 					<h:outputText value="删除" />
+					<p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
 				</p:commandLink>
 			</p:column>
 			<p:column headerText="Id">
-				<h:outputText value="#{u.id}" />
+				<h:outputText value="#{user.id}" />
 			</p:column>
 
 			<p:column headerText="Name">
-				<h:outputText value="#{u.name}" />
+				<h:outputText value="#{user.name}" />
 			</p:column>
 
 			<p:column headerText="Password">
-				<h:outputText value="#{u.password}" />
+				<h:outputText value="#{user.password}" />
 			</p:column>
 
 			<p:column headerText="Age">
-				<h:outputText value="#{u.age}" />
+				<h:outputText value="#{user.age}" />
 			</p:column>
 		</p:dataTable>
 		<p:dialog header="Edit User" widgetVar="editUserDialog" modal="true"
 			height="180">
-			<p:panel>
+			<p:fieldset id="editUserPanel">
 				<table>
 					<tr>
 						<td><h:outputText value="Username:"></h:outputText></td>
 						<td><h:inputText id="username"
-								value="#{userBean.edittingUser.name}"></h:inputText></td>
+								value="#{userBean.edittingUser.name}" ></h:inputText></td>
 					</tr>
 					<tr>
 						<td><h:outputText value="Password:"></h:outputText></td>
 						<td><h:inputText id="password"
-								value="#{userBean.edittingUser.password}"></h:inputText></td>
+								value="#{userBean.edittingUser.password}" ></h:inputText></td>
 					</tr>
 					<tr>
 						<td><h:outputText value="Age:"></h:outputText></td>
 						<td><h:inputText id="age"
-								value="#{userBean.edittingUser.age}" /></td>
+								value="#{userBean.edittingUser.age}" >
+								</h:inputText>
+								</td>
 					</tr>
 					<tr>
-						<td><p:commandButton value="保存" process="@this,"
-								actionListener="#{userBean.saveUser}" update="messages" /></td>
+						<td><p:commandButton value="保存" process="@this,editUserPanel"
+								actionListener="#{userBean.saveUser}" update="messages,userTable" oncomplete="PF('editUserDialog').hide();" /></td>
 						<td></td>
 					</tr>
 				</table>
-			</p:panel>
+			</p:fieldset>
 		</p:dialog>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+	        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+	        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
 	</ui:define>
 </ui:composition>
