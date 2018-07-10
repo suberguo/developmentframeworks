@@ -1,6 +1,7 @@
 package com.dds.ssjh.util;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -36,11 +37,11 @@ public class OracleDatabase implements Database {
 	public <T> T loadBy(Class<?> className, String propertyName, Object value) {
 		Criteria cr = sessionFactory.getCurrentSession().createCriteria(className);
 		cr.add(Restrictions.eq(propertyName, value));
-		
+
 		@SuppressWarnings("rawtypes")
 		List r = cr.list();
 		if (r.size() > 0) {
-			
+
 			return (T) r.get(0);
 		} else {
 			return null;
@@ -83,13 +84,14 @@ public class OracleDatabase implements Database {
 
 	private int countRows(SqlBuilder sqlBuilder) {
 		String sql = sqlBuilder.toString();
-		sql = "SELECT COUNT(1) FROM (" + sql + ") ";
+		sql = "SELECT COUNT(1) FROM (" + sql + ") T_" + sqlBuilder.hashCode();
 		SQLQuery q = sessionFactory.getCurrentSession().createSQLQuery(sql);
 		List<Object> parameters = sqlBuilder.parameters();
 		for (int i = 0; i < parameters.size(); i++) {
 			q.setParameter(i, parameters.get(i));
 		}
-		return (int) q.list().get(0);
+		BigInteger r = (BigInteger) q.uniqueResult();
+		return r.intValue();
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -140,9 +142,9 @@ public class OracleDatabase implements Database {
 
 		q.setFirstResult((pageIndex - 1) * pageSize);
 		q.setMaxResults(pageIndex * pageSize);
-		
+
 		r.setData((List<T>) q.list());
-		
+
 		return r;
 	}
 
@@ -157,6 +159,7 @@ public class OracleDatabase implements Database {
 		String sql = sqlBuilder.toString();
 		SQLQuery q = sessionFactory.getCurrentSession().createSQLQuery(sql);
 		q.setResultTransformer(new AliasToBeanResultTransformer(clz));
+		
 		HashMap<String, String> proMap = sqlBuilder.properties();
 		// HashMap<String, Type> typeMap = builder.types();
 		Set<String> keySet = proMap.keySet();
@@ -170,8 +173,8 @@ public class OracleDatabase implements Database {
 		for (int i = 0; i < parameters.size(); i++) {
 			q.setParameter(i, parameters.get(i));
 		}
-		q.setFirstResult((pageIndex - 1) * pageSize);
-		q.setMaxResults(pageIndex * pageSize);
+		q.setFirstResult(pageIndex * pageSize);
+		q.setMaxResults((pageIndex + 1) * pageSize);
 		r.setData((List<T>) q.list());
 		return r;
 	}

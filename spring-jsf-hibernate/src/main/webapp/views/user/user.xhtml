@@ -19,7 +19,7 @@
 			oncomplete="PF('editUserDialog').show();" update=":mainForm:editUserPanel" />
 		<p:remoteCommand name="loadUser" update="userTable"
 			action="#{userBean.load}" />
-		<p:dataTable id="userTable" var="user" value="#{userBean.userLazyModel}" rows="10" lazy="true" paginator="true"
+		<p:dataTable id="userTable" var="user" value="#{userBean.userLazyModel}" rows="5" lazy="true" paginator="true"
                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}">
 			<p:column headerText="操作" width="100">
 				<p:commandLink icon="ui-icon-pencil"  process="@this,userTable"

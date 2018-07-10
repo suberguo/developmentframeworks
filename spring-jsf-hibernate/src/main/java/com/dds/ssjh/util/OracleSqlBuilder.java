@@ -204,4 +204,10 @@ public class OracleSqlBuilder implements SqlBuilder {
 		return proTypeMap;
 	}
 
+	@Override
+	public SqlBuilder order(String orderby, boolean ascending) {
+		buffer.append(" ORDER BY " + orderby + ((ascending) ? " ASC" : " DESC"));
+		return this;
+	}
+
 }

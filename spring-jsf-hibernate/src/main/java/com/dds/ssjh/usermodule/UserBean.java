@@ -44,7 +44,7 @@ public class UserBean extends AbstractBean {
 				@Override
 				public List<User> load(int first, int pageSize, String sortField, SortOrder sortOrder,
 						Map<String, Object> filters) {
-					PaginatedResult<User> r = userService.listPaginated(pageSize, first);
+					PaginatedResult<User> r = userService.listPaginated(pageSize, first / pageSize);
 					setPageSize(pageSize);
 					setRowCount(r.getTotal());
 					return r.getData();

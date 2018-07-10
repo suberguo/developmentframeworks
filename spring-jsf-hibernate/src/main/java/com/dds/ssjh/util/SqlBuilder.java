@@ -43,6 +43,8 @@ public interface SqlBuilder {
 
 	SqlBuilder among(String columnName, Object from, Object to);
 
+	SqlBuilder order(String orderby, boolean ascending);
+
 	List<Object> parameters();
 
 	HashMap<String, String> properties();

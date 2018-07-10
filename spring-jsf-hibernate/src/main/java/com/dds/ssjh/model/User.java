@@ -9,7 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.OrderBy;
 
 @Entity(name = "DDS_USER")
 public class User implements Serializable {
@@ -17,6 +19,7 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@OrderBy(clause = "ID DESC")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ID")
 	private BigInteger id;
