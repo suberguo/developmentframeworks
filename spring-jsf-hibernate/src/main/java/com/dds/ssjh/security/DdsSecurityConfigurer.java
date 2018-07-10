@@ -42,12 +42,12 @@ public class DdsSecurityConfigurer extends WebSecurityConfigurerAdapter {
 		.antMatchers("/login.xhtml").permitAll()
 		.antMatchers("/javax.faces.resource/**").permitAll()
 		.antMatchers("/resources/**").permitAll()
-		.anyRequest().permitAll()
+		.anyRequest().authenticated()
 		.and().formLogin().usernameParameter("d_Username").passwordParameter("d_Password").loginProcessingUrl("/j_spring_security_check")
 		.successForwardUrl("/views/mainpage.xhtml")
 		.loginPage("/login.jsf").permitAll()
 		.failureUrl("/login.xhtml?error=1")
-		.and().logout().logoutSuccessUrl("/j_spring_security_logout").permitAll();
+		.and().logout().logoutSuccessUrl("/login.xhtml").logoutUrl("/j_spring_security_logout");
 		http.csrf().disable();
 	}
 

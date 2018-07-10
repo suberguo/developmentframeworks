@@ -8,6 +8,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	
 	xmlns:p="http://primefaces.org/ui">
 <f:view contentType="text/html" locale="en">
 	<h:head title="Spring-JSF-Hibernate">
@@ -35,7 +36,15 @@
 	<h:body>
 		<div class="PC">
 			<div class="HEADSIDE">
-				<span id="LOGO">Spring-JSF-Hibernate</span>
+				<span id="LOGO" >Spring-JSF-Hibernate</span>
+				<div align="right">
+					<h:form id="logoutForm">
+					       <p:commandButton value="Logout" process="@this,logoutForm"
+								action="#{userBean.logout()}" ajax="false">
+								<!-- 必须设置为非ajax提交，如果是ajax方式登录成功后页面无法重定向 -->
+							</p:commandButton>
+					</h:form>
+				</div>
 			</div>
 			<div id="MENUSIDE">
 				<div id="MENUSIDEindent">

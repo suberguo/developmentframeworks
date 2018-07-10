@@ -26,7 +26,7 @@
 /*  ----------------------------------------------------------------------------------------------------- */
 
 body{font-size: 14px; margin:0px; height:100%; overflow-x:hidden; overflow-y:auto; background-color:#eff3f6; font-family: 'latoregular', "Trebuchet MS", Arial, Helvetica, sans-serif;color:#5C666A;}
-    #HEADSIDE{background-color:#313b3f;height:50px;0px 2px 5px 0px rgba(0,0,0,0.3);}
+    #HEADSIDE{background-color:#313b3f;height:50px;0px 2px 5px 0px rgba(0,0,0,0.3);width:100%;}
 	/* menu side style*/
 	#MENUSIDE{position: fixed; left: 0px; background-color:#FFFFFF; border-right:solid 0px #151d21; overflow:hidden; width: 260px; position: fixed;
              -moz-transition: left 0.3s; -o-transition: left 0.3s;-webkit-transition: left 0.3s;transition: left 0.3s;}

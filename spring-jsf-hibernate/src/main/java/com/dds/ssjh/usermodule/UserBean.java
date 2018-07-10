@@ -58,17 +58,24 @@ public class UserBean extends AbstractBean {
 	}
 
 	public void doLogin() throws IOException, ServletException {
+		doLoginAndLogout("j_spring_security_check");
+	}
+
+	public void logout() {
+		doLoginAndLogout("j_spring_security_logout");
+	}
+
+	private void doLoginAndLogout(String processHandler) {
 		try {
 			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
 			RequestDispatcher dispatcher = ((ServletRequest) context.getRequest())
-					.getRequestDispatcher("/j_spring_security_check");
+					.getRequestDispatcher("/" + processHandler);
 			dispatcher.forward((ServletRequest) context.getRequest(), (ServletResponse) context.getResponse());
 			FacesContext.getCurrentInstance().responseComplete();
 		} catch (Exception ex) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage()));
 		}
-		// return "";
 	}
 
 	public void editUser(User user) {
